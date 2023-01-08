@@ -12,16 +12,13 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.IntStream;
 
 @CommandLine.Command(name = "castability", mixinStandardHelpOptions = true, version = "castability 1.0",
   description = "Prints the checksum (SHA-256 by default) of a file to STDOUT.")
 public class Main implements Callable<Integer> {
 
   public static void main(String[] args) {
-//    Castability.Result  result = new Castability()
-//      .coloredSources(10)
-//      .colorlessSources(30)
-//      .other(59).generate(25_000_000, 1, 7);
     int exitCode = new CommandLine(new Main()).execute(args);
     System.exit(exitCode);
   }
@@ -38,41 +35,51 @@ public class Main implements Callable<Integer> {
   @Override
   public Integer call() throws Exception {
     JsonObject json = new JsonObject(new String(Files.readAllBytes(file.toPath())));
+    JsonObject kTable = run(json);
+    System.out.println(kTable);
+    return 0;
+  }
+
+  public JsonObject run(JsonObject json) throws Exception {
     int landCount = json.getInteger("land_count");
     JsonObject untapped = json.getJsonObject("land_untapped");
-    final JsonObject glo = new JsonObject();
+    final JsonObject kTable = new JsonObject();
     ExecutorService exec = Executors.newFixedThreadPool(8);
     List<Callable<Runnable>> list = new ArrayList<>();
-    for (Map.Entry<String, Object> entry : untapped) {
-      String color = entry.getKey();
-      JsonObject blah = new JsonObject();
-      int count = (int)entry.getValue();
-      for (int i = 1;i <= maxManaValue;i++) {
-        for (int j = 1;j <= i;j++) {
-          int a = j;
-          int z = i - j;
+    for (Map.Entry<String, Object> colorEntry : untapped) {
+      String color = colorEntry.getKey();
+      JsonObject kRow = new JsonObject();
+      int count = (int)colorEntry.getValue();
+      IntStream.range(1, maxManaValue + 1).forEachOrdered(manaValue -> {
+        IntStream.range(1, manaValue + 1).forEachOrdered(coloredCastingCost -> {
+          int colorlessCastingCost = manaValue - coloredCastingCost;
           list.add(() -> {
             Castability.Result  result = new Castability()
               .coloredSources(count)
               .colorlessSources(landCount - count)
-              .other(99 - landCount).generate(iterations, a, z);
+              .other(99 - landCount)
+              .generate(iterations, coloredCastingCost, colorlessCastingCost);
             JsonObject res = new JsonObject();
             res.put("successRatio", result.successRatio);
             res.put("consistencyCutoffRatio", result.consistencyCutoffRatio);
             res.put("onCurveRatio", result.onCurveRatio);
-            StringBuilder sb = new StringBuilder();
-            if (z > 0) {
-              sb.append(z);
+            StringBuilder castingCostString = new StringBuilder();
+            if (colorlessCastingCost > 0) {
+              castingCostString.append(colorlessCastingCost);
             }
-            for (int k = 1;k <= a;k++) {
-              sb.append('C');
+            for (int k = 1;k <= coloredCastingCost;k++) {
+              castingCostString.append('C');
             }
             return () -> {
-              blah.put(sb.toString(), res);
+              kRow.put(castingCostString.toString(), res);
             };
           });
+        });
+        kTable.put(color, kRow);
+      });
+      for (int i = 1;i <= maxManaValue;i++) {
+        for (int j = 1;j <= i;j++) {
         }
-        glo.put(color, blah);
       }
     }
     try {
@@ -83,9 +90,6 @@ public class Main implements Callable<Integer> {
     } finally {
       exec.shutdown();
     }
-    System.out.println(glo);
-    return 0;
+    return kTable;
   }
-
-
 }
