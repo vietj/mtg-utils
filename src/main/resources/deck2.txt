@@ -1,0 +1,98 @@
+1 Scrubland
+1 Gruul Spellbreaker
+1 Grove of the Burnwillows
+1 Sunpetal Grove
+1 Berserk
+1 Bayou
+1 Reflecting Pool
+1 Voltaic Brawler
+1 Eladamri's Call
+1 Green Sun's Zenith
+1 Winota, Joiner of Forces
+1 Voice of Resurgence
+1 Path of Ancestry
+1 Eternal Witness
+1 Nurturing Peatland
+1 Command Tower
+1 Overgrown Tomb
+1 Thalia, Guardian of Thraben
+1 Thalia, Heretic Cathar
+1 Stomping Ground
+1 Taiga
+1 Tarmogoyf
+1 Tajic, Legion's Edge
+1 Grim Flayer
+1 Deathrite Shaman
+1 Savannah
+1 Putrid Leech
+1 Flinthoof Boar
+1 Ghor-Clan Rampager
+1 Rotting Regisaur
+1 Godless Shrine
+1 Ragavan, Nimble Pilferer
+1 Avacyn's Pilgrim
+1 Enlightened Tutor
+1 Worldly Tutor
+1 Demonic Tutor
+1 Inspiring Vantage
+1 Plateau
+1 Marsh Flats
+1 Tidehollow Sculler
+1 Silverblade Paladin
+1 Birds of Paradise
+1 Dark Confidant
+1 Wild Nacatl
+1 Mother of Runes
+1 Elvish Mystic
+1 Vexing Shusher
+1 Arid Mesa
+1 Blooming Marsh
+1 Lurrus of the Dream-Den
+1 Loam Lion
+1 Scavenging Ooze
+1 Windswept Heath
+1 Laelia, the Blade Reforged
+1 Scalding Tarn
+1 Kroxa, Titan of Death's Hunger
+1 Kunoros, Hound of Athreos
+1 Klothys, God of Destiny
+1 Territorial Kavu
+1 Temple Garden
+1 Ignoble Hierarch
+1 Razorverge Thicket
+1 General Kudro of Drannith
+1 General Ferrous Rokiric
+1 Goblin Guide
+1 Flooded Strand
+1 Kird Ape
+1 Copperline Gorge
+1 Gaddock Teeg
+1 Lightning Bolt
+1 Misty Rainforest
+1 Bloodstained Mire
+1 Sacred Foundry
+1 Fires of Invention
+1 Blackcleave Cliffs
+1 Polluted Delta
+1 Elves of Deep Shadow
+1 Llanowar Elves
+1 Fyndhorn Elves
+1 Arbor Elf
+1 Bloodbraid Elf
+1 Badlands
+1 Doran, the Siege Tower
+1 Blood Crypt
+1 Concealed Courtyard
+1 Wooded Foothills
+1 Duress
+1 Mana Confluence
+1 Lotus Cobra
+1 City of Brass
+1 Woodland Cemetery
+1 Knight of Autumn
+1 Verdant Catacombs
+1 Horizon Canopy
+1 Questing Beast
+1 Hexdrinker
+1 Skyclave Apparition
+1 Bruse Tarl, Boorish Herder
