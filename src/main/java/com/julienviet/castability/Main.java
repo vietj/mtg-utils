@@ -77,10 +77,6 @@ public class Main implements Callable<Integer> {
         });
         kTable.put(color, kRow);
       });
-      for (int i = 1;i <= maxManaValue;i++) {
-        for (int j = 1;j <= i;j++) {
-        }
-      }
     }
     try {
       List<Future<Runnable>> results = exec.invokeAll(list);

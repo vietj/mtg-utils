@@ -3,7 +3,6 @@ package com.julienviet.manabase;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -14,46 +13,46 @@ public class EvaluateCostTest {
 
   public static final CardDb DB = new CardDb();
 
-  public static final Card.Spell COUNTERSPELL = (Card.Spell) DB.find("Counterspell");
-  public static final Card.Spell BALEFUL_STRIX = (Card.Spell) DB.find("Baleful Strix");
-  public static final Card.Spell VAMPIRIC_TUTOR = (Card.Spell) DB.find("Vampiric Tutor");
-  public static final Card.Spell UNDERWORLD_DREAMD = (Card.Spell) DB.find("Underworld Dreams");
-  public static final Card.Spell LICH = (Card.Spell) DB.find("Lich");
-  public static final Card.Spell OMNATH_LOCUST_OF_CREATION = (Card.Spell) DB.find("Omnath, Locus of Creation");
-  public static final Card.Spell URZA_S_BAUBLE = (Card.Spell) DB.find("Urza's Bauble");
-  public static final Card.Spell TEZZERET_AGENT_OF_BOLAS = (Card.Spell) DB.find("Tezzeret, Agent of Bolas");
+  public static final Card.Spell COUNTERSPELL = (Card.Spell) DB.findByName("Counterspell");
+  public static final Card.Spell BALEFUL_STRIX = (Card.Spell) DB.findByName("Baleful Strix");
+  public static final Card.Spell VAMPIRIC_TUTOR = (Card.Spell) DB.findByName("Vampiric Tutor");
+  public static final Card.Spell UNDERWORLD_DREAMD = (Card.Spell) DB.findByName("Underworld Dreams");
+  public static final Card.Spell LICH = (Card.Spell) DB.findByName("Lich");
+  public static final Card.Spell OMNATH_LOCUST_OF_CREATION = (Card.Spell) DB.findByName("Omnath, Locus of Creation");
+  public static final Card.Spell URZA_S_BAUBLE = (Card.Spell) DB.findByName("Urza's Bauble");
+  public static final Card.Spell TEZZERET_AGENT_OF_BOLAS = (Card.Spell) DB.findByName("Tezzeret, Agent of Bolas");
 
-  public static final Card.Land ISLAND = (Card.Land) DB.find("Island");
-  public static final Card.Land MOUNTAIN = (Card.Land) DB.find("Mountain");
-  public static final Card.Land FOREST = (Card.Land) DB.find("Forest");
-  public static final Card.Land PLAINS = (Card.Land) DB.find("Plains");
-  public static final Card.Land SWAMP = (Card.Land) DB.find("Swamp");
+  public static final Card.Land ISLAND = (Card.Land) DB.findByName("Island");
+  public static final Card.Land MOUNTAIN = (Card.Land) DB.findByName("Mountain");
+  public static final Card.Land FOREST = (Card.Land) DB.findByName("Forest");
+  public static final Card.Land PLAINS = (Card.Land) DB.findByName("Plains");
+  public static final Card.Land SWAMP = (Card.Land) DB.findByName("Swamp");
 
-  public static final Card.Land VOLCANIC_ISLAND = (Card.Land) DB.find("Volcanic Island");
+  public static final Card.Land VOLCANIC_ISLAND = (Card.Land) DB.findByName("Volcanic Island");
 
-  public static final Card.Land ARID_MESA = (Card.Land) DB.find("Arid Mesa");
+  public static final Card.Land ARID_MESA = (Card.Land) DB.findByName("Arid Mesa");
 
-  public static final Card.Land FABLED_PASSAGE = (Card.Land) DB.find("Fabled Passage");
+  public static final Card.Land FABLED_PASSAGE = (Card.Land) DB.findByName("Fabled Passage");
 
-  public static final Card.Land ABANDONED_OUTPOST = (Card.Land) DB.find("Abandoned Outpost");
-  public static final Card.Land SEACHROME_COAST = (Card.Land) DB.find("Seachrome Coast");
-  public static final Card.Land DEN_OF_THE_BUGBEAR = (Card.Land) DB.find("Den of the Bugbear");
-  public static final Card.Land DESERTED_BEACH = (Card.Land) DB.find("Deserted Beach");
-  public static final Card.Land BLOOD_CRYPT = (Card.Land) DB.find("Blood Crypt");
-  public static final Card.Land GLACIAL_FORTRESS = (Card.Land) DB.find("Glacial Fortress");
+  public static final Card.Land ABANDONED_OUTPOST = (Card.Land) DB.findByName("Abandoned Outpost");
+  public static final Card.Land SEACHROME_COAST = (Card.Land) DB.findByName("Seachrome Coast");
+  public static final Card.Land DEN_OF_THE_BUGBEAR = (Card.Land) DB.findByName("Den of the Bugbear");
+  public static final Card.Land DESERTED_BEACH = (Card.Land) DB.findByName("Deserted Beach");
+  public static final Card.Land BLOOD_CRYPT = (Card.Land) DB.findByName("Blood Crypt");
+  public static final Card.Land GLACIAL_FORTRESS = (Card.Land) DB.findByName("Glacial Fortress");
 
-  public static final Card.Land DROWNED_CATACOMB = (Card.Land) DB.find("Drowned Catacomb"); // Check
-  public static final Card.Land SHIPWRECK_MARSH = (Card.Land) DB.find("Shipwreck Marsh"); // Slow
-  public static final Card.Land DARKSLICK_SHORES = (Card.Land) DB.find("Darkslick Shores"); // Fast
+  public static final Card.Land DROWNED_CATACOMB = (Card.Land) DB.findByName("Drowned Catacomb"); // Check
+  public static final Card.Land SHIPWRECK_MARSH = (Card.Land) DB.findByName("Shipwreck Marsh"); // Slow
+  public static final Card.Land DARKSLICK_SHORES = (Card.Land) DB.findByName("Darkslick Shores"); // Fast
 
-  public static final Card.Land BLACKLEAVE_CLIFFS = (Card.Land) DB.find("Blackcleave Cliffs"); // Fast
-  public static final Card.Land UNDERGROUND_SEA = (Card.Land) DB.find("Underground Sea"); // Dual
-  public static final Card.Land BADLANDS = (Card.Land) DB.find("Badlands"); // Dual
-  public static final Card.Land URZAS_SAGA = (Card.Land) DB.find("Urza's Saga");
+  public static final Card.Land BLACKLEAVE_CLIFFS = (Card.Land) DB.findByName("Blackcleave Cliffs"); // Fast
+  public static final Card.Land UNDERGROUND_SEA = (Card.Land) DB.findByName("Underground Sea"); // Dual
+  public static final Card.Land BADLANDS = (Card.Land) DB.findByName("Badlands"); // Dual
+  public static final Card.Land URZAS_SAGA = (Card.Land) DB.findByName("Urza's Saga");
 
-  public static final Card.Land RAUGRIN_TRIOME = (Card.Land) DB.find("Raugrin Triome"); // Jeskai
-  public static final Card.Land KETRIA_TRIOME = (Card.Land) DB.find("Ketria Triome"); // Temur
-  public static final Card.Land FIELD_OF_RUIN = (Card.Land) DB.find("Field of Ruin"); // Temur
+  public static final Card.Land RAUGRIN_TRIOME = (Card.Land) DB.findByName("Raugrin Triome"); // Jeskai
+  public static final Card.Land KETRIA_TRIOME = (Card.Land) DB.findByName("Ketria Triome"); // Temur
+  public static final Card.Land FIELD_OF_RUIN = (Card.Land) DB.findByName("Field of Ruin"); // Temur
 
   @Test
   public void testEvaluate() {

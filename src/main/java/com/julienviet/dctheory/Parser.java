@@ -1,11 +1,16 @@
 package com.julienviet.dctheory;
 
+import com.julienviet.manabase.Card;
+import com.julienviet.manabase.CardDb;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.julienviet.manabase.Deck;
 
 public class Parser {
 
@@ -26,28 +31,32 @@ public class Parser {
   }
 
   public static Deck toStruct(JsonObject jsonDeck) {
-
-    Deck deck = new Deck();
-
-    JsonObject companions = jsonDeck.getJsonObject("companions");
-    companions.forEach(entry -> {
-      List<Card> cards = Card.card(((JsonObject) entry.getValue()).getJsonObject("card"));
-      deck.addCard(cards);
-    });
-
-    //
-    JsonObject commanders = jsonDeck.getJsonObject("commanders");
-    commanders.forEach(entry -> {
-      List<Card> cards = Card.card(((JsonObject) entry.getValue()).getJsonObject("card"));
-      deck.addCard(cards);
-    });
-
-    JsonObject mainboard = jsonDeck.getJsonObject("mainboard");
-    mainboard.forEach(entry -> {
-      List<Card> cards = Card.card(((JsonObject) entry.getValue()).getJsonObject("card"));
-      deck.addCard(cards);
-    });
-
-    return deck;
+    CardDb db = new CardDb();
+    Deck.Builder deckBuilder = Deck.builder();
+    for (JsonObject o : Arrays.asList(jsonDeck.getJsonObject("companions"), jsonDeck.getJsonObject("commanders"), jsonDeck.getJsonObject("mainboard"))) {
+      o.forEach(entry -> {
+        JsonObject cardJson = ((JsonObject) entry.getValue()).getJsonObject("card");
+        String name = cardJson.getString("name");
+        Card card = db.findByName(name);
+        if (card == null) {
+          if (cardJson.containsKey("card_faces")) {
+            JsonArray faces = cardJson.getJsonArray("card_faces");
+            for (int i = 0;i < faces.size();i++) {
+              JsonObject face = faces.getJsonObject(i);
+              card = db.findByName(face.getString("name"));
+              if (card != null) {
+                break;
+              }
+            }
+          }
+          if (card == null) {
+            System.out.println("NOT FOUND " + cardJson);
+          }
+        } else {
+          deckBuilder.add(card);
+        }
+      });
+    }
+    return deckBuilder.build();
   }
 }

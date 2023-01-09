@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class Deck {
       }
       int quantity = Integer.parseInt(matcher.group(1));
       String cardName = matcher.group(2);
-      Card card = db.find(cardName);
+      Card card = db.findByName(cardName);
       if (card == null) {
         throw new IllegalArgumentException("Card not found " + cardName);
       }
