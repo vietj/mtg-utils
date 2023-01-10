@@ -24,16 +24,7 @@ public class Card {
   private static final Pattern RAV_LAND = Pattern.compile("you may pay \\d life. If you don't, it enters the battlefield tapped.");
   private static final Pattern CHECK_LAND = Pattern.compile("enters the battlefield tapped unless you control an? (Plains|Island|Swamp|Mountain|Forest)( or an? (Plains|Island|Swamp|Mountain|Forest))?\\.");
 
-  static List<Card> from(JsonObject json) {
-
-    if (json.getString("id", "").equals("7b215968-93a6-4278-ac61-4e3e8c3c3943")) {
-      System.out.println("FOUND IT");
-      System.out.println("FOUND IT");
-      System.out.println("FOUND IT");
-      System.out.println("FOUND IT");
-      System.out.println("FOUND IT");
-    }
-
+  public static List<Card> from(JsonObject json) {
     if (json.containsKey("card_faces") && json.getJsonArray("card_faces").size() > 0) {
       JsonArray faces = json.getJsonArray(("card_faces"));
       return faces

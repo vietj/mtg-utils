@@ -1,5 +1,8 @@
 package com.julienviet.dctheory;
 
+import com.julienviet.castability.Castability;
+import com.julienviet.castability.KTable;
+import com.julienviet.castability.KTableSet;
 import com.julienviet.castability.Main;
 import com.julienviet.manabase.Card;
 import com.julienviet.manabase.ManaSymbol;
@@ -30,22 +33,19 @@ public class ParserTest {
         manaSources.compute(symbol.toString(), (s, v) -> v == null ? 1 : v + 1);
       }
     }
-    System.out.println(manaSources);
-    System.out.println(landCount);
-
-    JsonObject result = new JsonObject();
+    JsonObject blah = new JsonObject();
     for (Map.Entry<String, Integer> abc : manaSources.entrySet()) {
-      JsonObject input = new JsonObject()
-        .put("land_count", landCount)
-        .put("land_untapped", new JsonObject().put(abc.getKey(), abc.getValue()));
-      Main main = new Main();
-      result.mergeIn(main.run(input));
+      blah.put(abc.getKey(), abc.getValue());
     }
+    Main main = new Main();
+    KTableSet result = main.run(new JsonObject()
+      .put("land_count", landCount)
+      .put("land_untapped", blah));
     JsonArray report = new JsonArray();
     for (Card.Spell spell : deck.spells()) {
       for (Map.Entry<ManaSymbol, Integer> entry : spell.cost.map().entrySet()) {
         if (entry.getKey() instanceof ManaSymbol.Typed) {
-          JsonObject ktable = result.getJsonObject(entry.getKey().toString());
+          KTable ktable = result.get(entry.getKey().toString());
           // Compute key in table
           StringBuilder sb = new StringBuilder();
           int rest = spell.cmc - entry.getValue();
@@ -55,14 +55,14 @@ public class ParserTest {
           for (int i = 0;i < entry.getValue();i++) {
             sb.append('C');
           }
-          JsonObject res = ktable.getJsonObject(sb.toString());
+          Castability.Result res = ktable.get(sb.toString());
           if (res != null) {
             report.add(new JsonObject()
               .put("mana_source", entry.getKey().toString())
               .put("color_specificity", sb.toString())
               .put("card_name", spell.name)
-              .put("n_land_success", res.getNumber("successRatio"))
-              .put("on_curve", res.getDouble("onCurveRatio") * 100)
+              .put("n_land_success", res.successRatio)
+              .put("on_curve", res.onCurveRatio * 100)
             );
           }
         }

@@ -8,7 +8,7 @@ public class Main2 {
     JsonObject input = new JsonObject().put("land_count", 40)
       .put("land_untapped", new JsonObject().put("R", 20));
     Main main = new Main();
-    JsonObject result = main.run(input);
+    JsonObject result = main.run(input).toJson();
     System.out.println(result);
 
   }

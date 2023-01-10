@@ -6,6 +6,7 @@ import picocli.CommandLine;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -35,20 +36,20 @@ public class Main implements Callable<Integer> {
   @Override
   public Integer call() throws Exception {
     JsonObject json = new JsonObject(new String(Files.readAllBytes(file.toPath())));
-    JsonObject kTable = run(json);
-    System.out.println(kTable);
+    KTableSet tableSet = run(json);
+    System.out.println(tableSet.toJson());
     return 0;
   }
 
-  public JsonObject run(JsonObject json) throws Exception {
+  public KTableSet run(JsonObject json) throws Exception {
     int landCount = json.getInteger("land_count");
     JsonObject untapped = json.getJsonObject("land_untapped");
-    final JsonObject kTable = new JsonObject();
+    KTableSet tableSet = new KTableSet();
     ExecutorService exec = Executors.newFixedThreadPool(8);
     List<Callable<Runnable>> list = new ArrayList<>();
     for (Map.Entry<String, Object> colorEntry : untapped) {
       String color = colorEntry.getKey();
-      JsonObject kRow = new JsonObject();
+      KTable kRow = new KTable();
       int count = (int)colorEntry.getValue();
       IntStream.range(1, maxManaValue + 1).forEachOrdered(manaValue -> {
         IntStream.range(1, manaValue + 1).forEachOrdered(coloredCastingCost -> {
@@ -59,10 +60,6 @@ public class Main implements Callable<Integer> {
               .colorlessSources(landCount - count)
               .other(99 - landCount)
               .generate(iterations, coloredCastingCost, colorlessCastingCost);
-            JsonObject res = new JsonObject();
-            res.put("successRatio", result.successRatio);
-            res.put("consistencyCutoffRatio", result.consistencyCutoffRatio);
-            res.put("onCurveRatio", result.onCurveRatio);
             StringBuilder castingCostString = new StringBuilder();
             if (colorlessCastingCost > 0) {
               castingCostString.append(colorlessCastingCost);
@@ -71,11 +68,11 @@ public class Main implements Callable<Integer> {
               castingCostString.append('C');
             }
             return () -> {
-              kRow.put(castingCostString.toString(), res);
+              kRow.put(castingCostString.toString(), result);
             };
           });
         });
-        kTable.put(color, kRow);
+        tableSet.put(color, kRow);
       });
     }
     try {
@@ -86,6 +83,6 @@ public class Main implements Callable<Integer> {
     } finally {
       exec.shutdown();
     }
-    return kTable;
+    return tableSet;
   }
 }
