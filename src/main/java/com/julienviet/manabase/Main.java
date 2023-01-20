@@ -326,7 +326,7 @@ public class Main {
 
     List<ManaSymbol> sortedLandsToFind = new ArrayList<>(map.keySet());
     sortedLandsToFind.sort(Comparator
-      .comparingInt(ManaSymbol::sortPriority)
+      .comparingInt(Main::sortPriority)
       .thenComparing(Object::toString));
 
     sortedLandsToFind.forEach(symbol -> {
@@ -388,4 +388,17 @@ public class Main {
     }
     return null;
   }
+
+  private static int sortPriority(ManaSymbol ms) {
+    if (ms == ManaSymbol.GENERIC) {
+      return 3;
+    } else if (ms instanceof ManaSymbol.Typed) {
+      return 1;
+    } else if (ms instanceof ManaSymbol.Hybrid) {
+      return 2;
+    } else {
+      throw new UnsupportedOperationException();
+    }
+  }
+
 }

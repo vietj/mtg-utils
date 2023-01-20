@@ -6,11 +6,6 @@ public interface ManaSymbol {
 
   ManaSymbol GENERIC = new ManaSymbol() {
     @Override
-    public int sortPriority() {
-      return 3;
-    }
-
-    @Override
     public String toString() {
       return "generic";
     }
@@ -42,11 +37,6 @@ public interface ManaSymbol {
     @Override
     public String toString() {
       return type.symbol;
-    }
-
-    @Override
-    public int sortPriority() {
-      return 1;
     }
   }
 
@@ -98,16 +88,8 @@ public interface ManaSymbol {
     }
 
     @Override
-    public int sortPriority() {
-      return 2;
-    }
-
-    @Override
     public String toString() {
       return first + "/" + second;
     }
   }
-
-  int sortPriority();
-
 }
