@@ -45,7 +45,8 @@ public class CardDb {
   private Map<String, Card> byName = new HashMap<>();
 
   public Card findByName(String name) {
-    return byName.get(name);
+    Card card = byName.get(name);
+    return card;
   }
 
   public Card findById(String id) {

@@ -22,7 +22,7 @@ public class DeckTest {
     Deck deck = Deck.builder().add(VOLCANIC_ISLAND).add(ARID_MESA).build();
 
     for (Card.Land land : deck.lands()) {
-      System.out.println(land.name + " " + land.manaTypes());
+      System.out.println(land.name + " " + deck.resolveManaTypes(land));
     }
 
   }

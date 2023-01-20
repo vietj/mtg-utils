@@ -7,14 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Deck {
 
@@ -74,25 +71,7 @@ public class Deck {
     }
 
     public Deck build() {
-
-      Map<Card, Integer> newList = new HashMap<>();
-
-      List<Card.Land> lands = list.keySet().stream().filter(c -> c instanceof Card.Land).map(c -> (Card.Land) c).collect(Collectors.toList());
-
-      list.entrySet().forEach(entry -> {
-        Card card = entry.getKey();
-        if (card instanceof Card.Land) {
-          Card.Land land = (Card.Land) card;
-          if (land.fetchedTypes != null) {
-            land = land.mutable();
-            land.resolveManaTypes(lands);
-            card = land;
-          }
-        }
-        newList.put(card, entry.getValue());
-      });
-
-      return new Deck(newList);
+      return new Deck(new HashMap<>(list));
     }
   }
 
@@ -114,6 +93,29 @@ public class Deck {
     }
     return cards;
   }
+
+  private Map<Card.Land, Set<ManaSymbol.Typed>> resolvedManaTypes = new LinkedHashMap<>();
+
+  public Set<ManaSymbol.Typed> resolveManaTypes(Card.Land card) {
+    Set<ManaSymbol.Typed> ret = resolvedManaTypes.get(card);
+    if (ret == null) {
+      Set<ManaSymbol.Typed> resolved = new HashSet<>(card.manaTypes);
+      if (card.fetchedTypes != null) {
+        for (String s : card.fetchedTypes) {
+          list.keySet().stream().flatMap(c -> c instanceof Card.Land ? Stream.of((Card.Land)c) : Stream.empty())
+            .forEach(l -> {
+              if (l.subTypes.contains(s) || l.superTypes.contains(s)) {
+                resolved.addAll(l.manaTypes);
+              }
+            });
+        }
+      }
+      resolvedManaTypes.put(card, resolved);
+      ret = resolved;
+    }
+    return ret;
+  }
+
 
   public List<Card.Spell> spells() {
     return cards(Card.Spell.class);

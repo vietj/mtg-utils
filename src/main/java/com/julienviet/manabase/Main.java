@@ -17,16 +17,6 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-  private static final Comparator<Card.Land> LAND_COMPARATOR = new Comparator<Card.Land>() {
-    @Override
-    public int compare(Card.Land o1, Card.Land o2) {
-      int cmp = o1.manaTypes().size() - o2.manaTypes().size();
-      if (cmp == 0) {
-        cmp = o1.name.compareTo(o2.name);
-      }
-      return cmp;
-    }
-  };
 
   //      "Baleful Strix": "96.57%",
 //      "Imperial Recruiter": "0.00%",
@@ -143,7 +133,7 @@ public class Main {
             res = new Result();
             manaCostsResults.put(manaCost, res);
           }
-          if (canPlaySpellOnCurve(comb, manaCost)) {
+          if (canPlaySpellOnCurve(deck, comb, manaCost)) {
             res.ok++;
           } else {
             if (manaCost.cmc() == 0) {
@@ -164,8 +154,8 @@ public class Main {
     return spellResults;
   }
 
-  public static boolean canPlaySpellOnCurve(List<Card.Land> lands, Card.Spell spell) {
-    return canPlaySpellOnCurve(lands, spell.cost);
+  public static boolean canPlaySpellOnCurve(Deck deck, List<Card.Land> lands, Card.Spell spell) {
+    return canPlaySpellOnCurve(deck, lands, spell.cost);
   }
 
   public static boolean hasCorrectColors() {
@@ -174,7 +164,7 @@ public class Main {
     return false;
   }
 
-  public static boolean canPlaySpellOnCurve(List<Card.Land> lands, ManaCost spell) {
+  public static boolean canPlaySpellOnCurve(Deck deck, List<Card.Land> lands, ManaCost spell) {
 
 //    if (!hasCorrectColors(lands, spell)) {
 //      return false;
@@ -188,7 +178,7 @@ public class Main {
     if (!hasUntappedLand(lands, cmc)) {
       return false;
     }
-    List<Card.Land> res = getAllCombinationsOfMinAndMaxLengthWithCallback2(comb -> !evaluateCost(comb, spell), lands, cmc, cmc);
+    List<Card.Land> res = getAllCombinationsOfMinAndMaxLengthWithCallback2(comb -> !evaluateCost(deck, comb, spell), lands, cmc, cmc);
 
     return res != null;
 
@@ -320,7 +310,7 @@ public class Main {
     }
   }
 
-  public static boolean evaluateCost(List<Card.Land> lands, ManaCost cost) {
+  public static boolean evaluateCost(Deck deck, List<Card.Land> lands, ManaCost cost) {
 
     int cmc = cost.cmc();
     if (cmc == 0) {
@@ -330,26 +320,22 @@ public class Main {
     List<Card.Land> remainingLands = new ArrayList<>(lands);
     List<Card.Land> usedLands = new ArrayList<>();
 
-    remainingLands.sort(LAND_COMPARATOR);
+    remainingLands.sort(Comparator
+      .comparingInt((Card.Land o) -> deck.resolveManaTypes(o).size())
+      .thenComparing(o -> o.name)
+    );
 
     Map<ManaSymbol, Integer> map = cost.map();
 
     List<ManaSymbol> sortedLandsToFind = new ArrayList<>(map.keySet());
-    sortedLandsToFind.sort(new Comparator<ManaSymbol>() {
-      @Override
-      public int compare(ManaSymbol o1, ManaSymbol o2) {
-        int val = o1.sortPriority() - o2.sortPriority();
-        if (val == 0) {
-          val = o1.toString().compareTo(o2.toString());
-        }
-        return val;
-      }
-    });
+    sortedLandsToFind.sort(Comparator
+      .comparingInt(ManaSymbol::sortPriority)
+      .thenComparing(Object::toString));
 
     sortedLandsToFind.forEach(symbol -> {
       int amount = map.get(symbol);
       while (amount > 0) {
-        Card.Land land = findCorrectLand(remainingLands, symbol);
+        Card.Land land = findCorrectLand(deck, remainingLands, symbol);
         if (land == null) {
           break;
         }
@@ -373,7 +359,7 @@ public class Main {
     return false;
   }
 
-  public static Card.Land findCorrectLand(List<Card.Land> lands, ManaSymbol symbol) {
+  public static Card.Land findCorrectLand(Deck deck, List<Card.Land> lands, ManaSymbol symbol) {
     if (lands.isEmpty()) {
       return null;
     }
@@ -382,20 +368,21 @@ public class Main {
     }
     if (symbol instanceof ManaSymbol.Hybrid) {
       ManaSymbol.Hybrid hybrid = (ManaSymbol.Hybrid) symbol;
-      Card.Land land = findCorrectLand(lands, hybrid.first);
+      Card.Land land = findCorrectLand(deck, lands, hybrid.first);
       if (land == null) {
-        land = findCorrectLand(lands, hybrid.second);
+        land = findCorrectLand(deck, lands, hybrid.second);
       }
       return land;
     }
     ManaSymbol.Typed typed = (ManaSymbol.Typed) symbol;
     for (Card.Land land : lands) {
-      if (land.manaTypes().size() == 1 && land.manaTypes().contains(typed)) {
+      Set<ManaSymbol.Typed> resolvedManaTypes = deck.resolveManaTypes(land);
+      if (resolvedManaTypes.size() == 1 && resolvedManaTypes.contains(typed)) {
         return land;
       }
     }
     for (Card.Land land : lands) {
-      if (land.manaTypes().contains(typed)) {
+      if (deck.resolveManaTypes(land).contains(typed)) {
         return land;
       }
     }

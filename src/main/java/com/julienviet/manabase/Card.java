@@ -33,13 +33,16 @@ public class Card {
         .flatMap(card_face -> from(card_face).stream())
         .collect(Collectors.toList());
     } else {
-      if (!json.containsKey("type_line")) {
+      if (!json.containsKey("type_line") ) {
         // Not cards
         return Collections.emptyList();
       }
       String id = json.getString("id");
       String name = json.getString("name");
       String typeLine = json.getString("type_line");
+      if (typeLine.equals("Card")) {
+        return Collections.emptyList();
+      }
       String l;
       Set<String> subTypes;
       int idx = typeLine.indexOf(" — ");
@@ -175,10 +178,10 @@ public class Card {
 
   public static class Land extends Card {
 
-    private Set<ManaSymbol.Typed> manaTypes; // colors
+    Set<ManaSymbol.Typed> manaTypes; // colors
     private BiFunction<List<Land>, Integer, Boolean> etbTapped;
-    private Set<String> superTypes;
-    private Set<String> subTypes;
+    Set<String> superTypes;
+    Set<String> subTypes;
     public final Set<String> fetchedTypes;
 
     public Land(String id,
@@ -203,20 +206,6 @@ public class Card {
       } else {
         return this;
       }
-    }
-
-    void resolveManaTypes(List<Land> list) {
-      for (String s : fetchedTypes) {
-        for (Land l : list) {
-          if (l.subTypes.contains(s) || l.superTypes.contains(s)) {
-            manaTypes.addAll(l.manaTypes);
-          }
-        }
-      }
-    }
-
-    public Set<ManaSymbol.Typed> manaTypes() {
-      return manaTypes;
     }
 
     public Set<String> subTypes() {

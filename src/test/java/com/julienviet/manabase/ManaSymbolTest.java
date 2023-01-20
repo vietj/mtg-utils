@@ -25,10 +25,12 @@ public class ManaSymbolTest {
   @Test
   public void testFindCorrectLand() {
 
-    assertSame(ISLAND, Main.findCorrectLand(Arrays.asList(ISLAND), ManaSymbol.BLUE));
-    assertSame(ISLAND, Main.findCorrectLand(Arrays.asList(ISLAND), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
-    assertSame(FOREST, Main.findCorrectLand(Arrays.asList(FOREST), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
-    assertSame(null, Main.findCorrectLand(Arrays.asList(MOUNTAIN), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
+    Deck empty = new Deck.Builder().build();
+
+    assertSame(ISLAND, Main.findCorrectLand(empty, Arrays.asList(ISLAND), ManaSymbol.BLUE));
+    assertSame(ISLAND, Main.findCorrectLand(empty, Arrays.asList(ISLAND), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
+    assertSame(FOREST, Main.findCorrectLand(empty, Arrays.asList(FOREST), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
+    assertSame(null, Main.findCorrectLand(empty, Arrays.asList(MOUNTAIN), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
 
   }
 

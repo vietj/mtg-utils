@@ -26,10 +26,10 @@ public class ParserTest {
     Map<String, Integer> manaSources = new LinkedHashMap<>();
     int landCount = 0;
     for (Card.Land land : deck.lands()) {
-      if (land.manaTypes().size() > 0) {
+      if (deck.resolveManaTypes(land).size() > 0) {
         landCount++;
       }
-      for (ManaSymbol.Typed symbol : land.manaTypes()) {
+      for (ManaSymbol.Typed symbol : deck.resolveManaTypes(land)) {
         manaSources.compute(symbol.toString(), (s, v) -> v == null ? 1 : v + 1);
       }
     }

@@ -56,11 +56,11 @@ public class EvaluateCostTest {
 
   @Test
   public void testEvaluate() {
-
-    assertTrue(Main.evaluateCost(Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.BLUE)));
-    assertFalse(Main.evaluateCost(Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.RED)));
-    assertFalse(Main.evaluateCost(Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.BLUE, 2)));
-    assertTrue(Main.evaluateCost(Arrays.asList(ISLAND, ISLAND), new ManaCost().add(ManaSymbol.BLUE, 2)));
+    Deck empty = new Deck.Builder().build();
+    assertTrue(Main.evaluateCost(empty, Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.BLUE)));
+    assertFalse(Main.evaluateCost(empty, Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.RED)));
+    assertFalse(Main.evaluateCost(empty, Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.BLUE, 2)));
+    assertTrue(Main.evaluateCost(empty, Arrays.asList(ISLAND, ISLAND), new ManaCost().add(ManaSymbol.BLUE, 2)));
 
   }
 
@@ -74,20 +74,21 @@ public class EvaluateCostTest {
 
   @Test
   public void testCanPlaySpell() {
-    assertFalse(Main.canPlaySpellOnCurve(Arrays.asList(ISLAND), COUNTERSPELL));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(ISLAND, ISLAND), COUNTERSPELL));
-    assertFalse(Main.canPlaySpellOnCurve(Arrays.asList(SWAMP, SWAMP), BALEFUL_STRIX));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(SWAMP, ISLAND), BALEFUL_STRIX));
-    assertFalse(Main.canPlaySpellOnCurve(Arrays.asList(DROWNED_CATACOMB, DROWNED_CATACOMB, DROWNED_CATACOMB), UNDERWORLD_DREAMD));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(DROWNED_CATACOMB, DROWNED_CATACOMB, SWAMP), UNDERWORLD_DREAMD));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(DROWNED_CATACOMB, SHIPWRECK_MARSH, SWAMP), UNDERWORLD_DREAMD));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(SHIPWRECK_MARSH, SHIPWRECK_MARSH, SWAMP), UNDERWORLD_DREAMD));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(SHIPWRECK_MARSH, SHIPWRECK_MARSH, SHIPWRECK_MARSH), UNDERWORLD_DREAMD));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(DARKSLICK_SHORES, DARKSLICK_SHORES, DARKSLICK_SHORES), UNDERWORLD_DREAMD));
-    assertFalse(Main.canPlaySpellOnCurve(Arrays.asList(DARKSLICK_SHORES, DARKSLICK_SHORES, DARKSLICK_SHORES, DARKSLICK_SHORES), LICH));
-    assertFalse(Main.canPlaySpellOnCurve(Arrays.asList(RAUGRIN_TRIOME, RAUGRIN_TRIOME, KETRIA_TRIOME, KETRIA_TRIOME, FIELD_OF_RUIN), OMNATH_LOCUST_OF_CREATION));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(RAUGRIN_TRIOME, RAUGRIN_TRIOME, KETRIA_TRIOME, KETRIA_TRIOME, ISLAND), OMNATH_LOCUST_OF_CREATION));
-    assertTrue(Main.canPlaySpellOnCurve(Arrays.asList(SWAMP), URZA_S_BAUBLE));
+    Deck empty = new Deck.Builder().build();
+    assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(ISLAND), COUNTERSPELL));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(ISLAND, ISLAND), COUNTERSPELL));
+    assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(SWAMP, SWAMP), BALEFUL_STRIX));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(SWAMP, ISLAND), BALEFUL_STRIX));
+    assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(DROWNED_CATACOMB, DROWNED_CATACOMB, DROWNED_CATACOMB), UNDERWORLD_DREAMD));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(DROWNED_CATACOMB, DROWNED_CATACOMB, SWAMP), UNDERWORLD_DREAMD));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(DROWNED_CATACOMB, SHIPWRECK_MARSH, SWAMP), UNDERWORLD_DREAMD));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(SHIPWRECK_MARSH, SHIPWRECK_MARSH, SWAMP), UNDERWORLD_DREAMD));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(SHIPWRECK_MARSH, SHIPWRECK_MARSH, SHIPWRECK_MARSH), UNDERWORLD_DREAMD));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(DARKSLICK_SHORES, DARKSLICK_SHORES, DARKSLICK_SHORES), UNDERWORLD_DREAMD));
+    assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(DARKSLICK_SHORES, DARKSLICK_SHORES, DARKSLICK_SHORES, DARKSLICK_SHORES), LICH));
+    assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(RAUGRIN_TRIOME, RAUGRIN_TRIOME, KETRIA_TRIOME, KETRIA_TRIOME, FIELD_OF_RUIN), OMNATH_LOCUST_OF_CREATION));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(RAUGRIN_TRIOME, RAUGRIN_TRIOME, KETRIA_TRIOME, KETRIA_TRIOME, ISLAND), OMNATH_LOCUST_OF_CREATION));
+    assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(SWAMP), URZA_S_BAUBLE));
   }
 
   @Test
