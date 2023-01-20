@@ -7,9 +7,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static com.julienviet.manabase.EvaluateCostTest.FOREST;
-import static com.julienviet.manabase.EvaluateCostTest.ISLAND;
-import static com.julienviet.manabase.EvaluateCostTest.MOUNTAIN;
+import static com.julienviet.manabase.EvaluateCostTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
@@ -34,8 +32,5 @@ public class ManaSymbolTest {
     assertSame(ISLAND, Main.findCorrectLand(empty, Arrays.asList(ISLAND), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
     assertSame(FOREST, Main.findCorrectLand(empty, Arrays.asList(FOREST), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
     assertSame(null, Main.findCorrectLand(empty, Arrays.asList(MOUNTAIN), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));
-
   }
-
-
 }

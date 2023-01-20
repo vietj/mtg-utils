@@ -22,30 +22,26 @@ public interface ManaSymbol {
   Typed BLUE = Typed.BLUE;
   Typed BLACK = Typed.BLACK;
   Typed WHITE = Typed.WHITE;
-  // Typed COLORLESS = Typed.COLORLESS;
+  Typed COLORLESS = Typed.COLORLESS;
 
   enum Typed implements ManaSymbol {
 
-    BLUE("U"),
-    RED("R"),
-    GREEN("G"),
-    BLACK("B"),
-    WHITE("W");
-    // COLORLESS();
+    BLUE(ManaType.BLUE),
+    RED(ManaType.RED),
+    GREEN(ManaType.GREEN),
+    BLACK(ManaType.BLACK),
+    WHITE(ManaType.WHITE),
+    COLORLESS(ManaType.COLORLESS);
 
-    private final String string;
-    public final int mask;
+    public final ManaType type;
 
-    Typed(String string) {
-      this.string = string;
-      this.mask = 2 ^ ordinal();
+    Typed(ManaType type) {
+      this.type = type;
     }
-
-
 
     @Override
     public String toString() {
-      return string;
+      return type.symbol;
     }
 
     @Override

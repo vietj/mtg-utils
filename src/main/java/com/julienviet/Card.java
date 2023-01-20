@@ -63,28 +63,28 @@ public class Card {
 
       Card card;
       if ("Land".equals(type)) {
-        Set<ManaSymbol.Typed> manaTypes = new HashSet<>();
+        Set<ManaType> manaTypes = new HashSet<>();
         JsonArray produced = json.getJsonArray("produced_mana");
         if (produced != null) {
           for (Object o : produced) {
             switch (o.toString()) {
               case "R":
-                manaTypes.add(ManaSymbol.RED);
+                manaTypes.add(ManaType.RED);
                 break;
               case "B":
-                manaTypes.add(ManaSymbol.BLACK);
+                manaTypes.add(ManaType.BLACK);
                 break;
               case "U":
-                manaTypes.add(ManaSymbol.BLUE);
+                manaTypes.add(ManaType.BLUE);
                 break;
               case "W":
-                manaTypes.add(ManaSymbol.WHITE);
+                manaTypes.add(ManaType.WHITE);
                 break;
               case "G":
-                manaTypes.add(ManaSymbol.GREEN);
+                manaTypes.add(ManaType.GREEN);
                 break;
               case "C":
-                // Not implemented
+                manaTypes.add(ManaType.COLORLESS);
                 break;
               default:
                 throw new UnsupportedOperationException(o.toString());
@@ -177,7 +177,7 @@ public class Card {
 
   public static class Land extends Card {
 
-    Set<ManaSymbol.Typed> manaTypes; // colors
+    Set<ManaType> manaTypes; // colors
     private BiFunction<List<Land>, Integer, Boolean> etbTapped;
     Set<String> superTypes;
     Set<String> subTypes;
@@ -188,7 +188,7 @@ public class Card {
                 Set<String> superTypes,
                 String type,
                 Set<String> subTypes,
-                Set<ManaSymbol.Typed> manaTypes,
+                Set<ManaType> manaTypes,
                 BiFunction<List<Land>, Integer, Boolean> etbTapped,
                 Set<String> fetchedTypes) {
       super(id, name, type, 0);

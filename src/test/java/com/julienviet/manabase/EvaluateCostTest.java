@@ -28,6 +28,8 @@ public class EvaluateCostTest {
   public static final Card.Land FOREST = (Card.Land) DB.findByName("Forest");
   public static final Card.Land PLAINS = (Card.Land) DB.findByName("Plains");
   public static final Card.Land SWAMP = (Card.Land) DB.findByName("Swamp");
+  public static final Card.Land WASTES = (Card.Land) DB.findByName("Wastes");
+
 
   public static final Card.Land VOLCANIC_ISLAND = (Card.Land) DB.findByName("Volcanic Island");
 

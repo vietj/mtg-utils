@@ -373,14 +373,17 @@ public class Main {
     }
     ManaSymbol.Typed typed = (ManaSymbol.Typed) symbol;
     for (Card.Land land : lands) {
-      Set<ManaSymbol.Typed> resolvedManaTypes = deckList.resolveManaTypes(land);
-      if (resolvedManaTypes.size() == 1 && resolvedManaTypes.contains(typed)) {
+      Set<ManaType> resolvedManaTypes = deckList.resolveManaTypes(land);
+      if (resolvedManaTypes.size() == 1 && typed.type == resolvedManaTypes.iterator().next()) {
         return land;
       }
     }
     for (Card.Land land : lands) {
-      if (deckList.resolveManaTypes(land).contains(typed)) {
-        return land;
+      Set<ManaType> resolvedManaTypes = deckList.resolveManaTypes(land);
+      for (ManaType resolvedManaType : resolvedManaTypes) {
+        if (resolvedManaType == typed.type) {
+          return land;
+        }
       }
     }
     return null;

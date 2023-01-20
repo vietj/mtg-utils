@@ -1,5 +1,6 @@
 package com.julienviet.dctheory;
 
+import com.julienviet.ManaType;
 import com.julienviet.castability.Castability;
 import com.julienviet.castability.KTable;
 import com.julienviet.castability.KTableSet;
@@ -29,7 +30,7 @@ public class ParserTest {
       if (deck.resolveManaTypes(land).size() > 0) {
         landCount++;
       }
-      for (ManaSymbol.Typed symbol : deck.resolveManaTypes(land)) {
+      for (ManaType symbol : deck.resolveManaTypes(land)) {
         manaSources.compute(symbol.toString(), (s, v) -> v == null ? 1 : v + 1);
       }
     }
@@ -45,7 +46,7 @@ public class ParserTest {
     for (Card.Spell spell : deck.spells()) {
       for (Map.Entry<ManaSymbol, Integer> entry : spell.cost.map().entrySet()) {
         if (entry.getKey() instanceof ManaSymbol.Typed) {
-          KTable ktable = result.get(entry.getKey().toString());
+          KTable ktable = result.get(((ManaSymbol.Typed)entry.getKey()).type.toString());
           // Compute key in table
           StringBuilder sb = new StringBuilder();
           int rest = spell.cmc - entry.getValue();

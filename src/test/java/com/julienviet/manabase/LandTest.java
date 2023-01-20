@@ -1,17 +1,27 @@
 package com.julienviet.manabase;
 
+import com.julienviet.DeckList;
+import com.julienviet.ManaSymbol;
+import com.julienviet.ManaType;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Set;
 
-import static com.julienviet.manabase.EvaluateCostTest.ISLAND;
-import static com.julienviet.manabase.EvaluateCostTest.MOUNTAIN;
+import static com.julienviet.manabase.EvaluateCostTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class LandTest {
+
+  @Test
+  public void testColorless() {
+    DeckList list = new DeckList.Builder().add(WASTES).build();
+    Set<ManaType> resolved = list.resolveManaTypes(WASTES);
+    assertEquals(Collections.singleton(ManaType.COLORLESS), resolved);
+  }
 
   @Test
   public void testSubTypes() {

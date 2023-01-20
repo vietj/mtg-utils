@@ -98,12 +98,12 @@ public class DeckList {
     return cards;
   }
 
-  private Map<Card.Land, Set<ManaSymbol.Typed>> resolvedManaTypes = new LinkedHashMap<>();
+  private Map<Card.Land, Set<ManaType>> resolvedManaTypes = new LinkedHashMap<>();
 
-  public Set<ManaSymbol.Typed> resolveManaTypes(Card.Land card) {
-    Set<ManaSymbol.Typed> ret = resolvedManaTypes.get(card);
+  public Set<ManaType> resolveManaTypes(Card.Land card) {
+    Set<ManaType> ret = resolvedManaTypes.get(card);
     if (ret == null) {
-      Set<ManaSymbol.Typed> resolved = new HashSet<>(card.manaTypes);
+      Set<ManaType> resolved = new HashSet<>(card.manaTypes);
       if (card.fetchedTypes != null) {
         for (String s : card.fetchedTypes) {
           lands().forEach(land -> {
