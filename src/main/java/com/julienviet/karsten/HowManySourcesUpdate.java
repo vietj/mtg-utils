@@ -1,7 +1,5 @@
 package com.julienviet.karsten;
 
-import com.julienviet.manabase.Card;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;

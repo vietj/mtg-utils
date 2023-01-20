@@ -1,16 +1,15 @@
 package com.julienviet.dctheory;
 
-import com.julienviet.manabase.Card;
-import com.julienviet.manabase.CardDb;
+import com.julienviet.Card;
+import com.julienviet.CardDb;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.julienviet.manabase.Deck;
+import com.julienviet.Deck;
 
 public class Parser {
 

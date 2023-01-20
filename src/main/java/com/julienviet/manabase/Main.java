@@ -1,10 +1,7 @@
 package com.julienviet.manabase;
 
-import io.vertx.core.json.JsonObject;
+import com.julienviet.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -388,20 +385,4 @@ public class Main {
     }
     return null;
   }
-
-  public static byte[] loadFile(InputStream in) throws IOException {
-    try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-      byte[] buffer = new byte[1024];
-      while (true) {
-        int amount = in.read(buffer, 0, buffer.length);
-        if (amount == -1) {
-          break;
-        }
-        bos.write(buffer, 0, amount);
-      }
-      return bos.toByteArray();
-    }
-  }
-
-
 }

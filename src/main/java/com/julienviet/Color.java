@@ -1,4 +1,4 @@
-package com.julienviet.manabase;
+package com.julienviet;
 
 public enum Color {
 

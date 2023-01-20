@@ -4,13 +4,13 @@ import com.julienviet.castability.Castability;
 import com.julienviet.castability.KTable;
 import com.julienviet.castability.KTableSet;
 import com.julienviet.castability.Main;
-import com.julienviet.manabase.Card;
-import com.julienviet.manabase.ManaSymbol;
+import com.julienviet.Card;
+import com.julienviet.ManaSymbol;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.Test;
 import wiremock.com.github.jknack.handlebars.internal.Files;
-import com.julienviet.manabase.Deck;
+import com.julienviet.Deck;
 
 import java.io.File;
 import java.util.LinkedHashMap;

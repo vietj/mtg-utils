@@ -1,4 +1,4 @@
-package com.julienviet.manabase;
+package com.julienviet;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,9 +1,8 @@
-package com.julienviet.manabase;
+package com.julienviet;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;

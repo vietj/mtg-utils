@@ -1,16 +1,14 @@
 package com.julienviet.manabase;
 
+import com.julienviet.Card;
+import com.julienviet.Deck;
 import org.junit.Test;
 
 import java.util.Map;
 
 import static com.julienviet.manabase.EvaluateCostTest.ARID_MESA;
-import static com.julienviet.manabase.EvaluateCostTest.FOREST;
-import static com.julienviet.manabase.EvaluateCostTest.ISLAND;
 import static com.julienviet.manabase.EvaluateCostTest.KETRIA_TRIOME;
-import static com.julienviet.manabase.EvaluateCostTest.MOUNTAIN;
 import static com.julienviet.manabase.EvaluateCostTest.OMNATH_LOCUST_OF_CREATION;
-import static com.julienviet.manabase.EvaluateCostTest.PLAINS;
 import static com.julienviet.manabase.EvaluateCostTest.RAUGRIN_TRIOME;
 import static com.julienviet.manabase.EvaluateCostTest.VOLCANIC_ISLAND;
 

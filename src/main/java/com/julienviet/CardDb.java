@@ -1,10 +1,12 @@
-package com.julienviet.manabase;
+package com.julienviet;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -15,9 +17,9 @@ public class CardDb {
   public CardDb() {
     try {
       JsonArray array;
-      try (ZipInputStream in = new ZipInputStream(Main.class.getClassLoader().getResourceAsStream("oracle-cards-20230109100204.json.zip"))) {
+      try (ZipInputStream in = new ZipInputStream(CardDb.class.getClassLoader().getResourceAsStream("oracle-cards-20230109100204.json.zip"))) {
         ZipEntry entry = in.getNextEntry();
-        byte[] bytes = Main.loadFile(in);
+        byte[] bytes = loadFile(in);
         array = new JsonArray(Buffer.buffer(bytes));
       }
       for (int i = 0;i < array.size();i++) {
@@ -51,5 +53,19 @@ public class CardDb {
 
   public Card findById(String id) {
     return byId.get(id);
+  }
+
+  public static byte[] loadFile(InputStream in) throws IOException {
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+      byte[] buffer = new byte[1024];
+      while (true) {
+        int amount = in.read(buffer, 0, buffer.length);
+        if (amount == -1) {
+          break;
+        }
+        bos.write(buffer, 0, amount);
+      }
+      return bos.toByteArray();
+    }
   }
 }

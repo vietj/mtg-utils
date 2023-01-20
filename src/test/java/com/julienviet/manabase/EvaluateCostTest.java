@@ -1,5 +1,6 @@
 package com.julienviet.manabase;
 
+import com.julienviet.*;
 import org.junit.Test;
 
 import java.util.Arrays;

@@ -1,5 +1,8 @@
 package com.julienviet.manabase;
 
+import com.julienviet.Deck;
+import com.julienviet.ManaCost;
+import com.julienviet.ManaSymbol;
 import org.junit.Test;
 
 import java.util.Arrays;

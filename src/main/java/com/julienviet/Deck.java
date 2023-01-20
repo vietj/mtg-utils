@@ -1,4 +1,4 @@
-package com.julienviet.manabase;
+package com.julienviet;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
