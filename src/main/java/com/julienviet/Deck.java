@@ -76,12 +76,14 @@ public class Deck {
   }
 
   private final Map<Card, Integer> list;
+  private List<Card.Land> lands;
+  private List<Card.Spell> spells;
 
   private Deck(Map<Card, Integer> list) {
     this.list = list;
   }
 
-  public <T extends Card> List<T> cards(Class<T> type) {
+  private <T extends Card> List<T> cards(Class<T> type) {
     List<T> cards = new ArrayList<>();
     for (Map.Entry<Card, Integer> entry : list.entrySet()) {
       Card card = entry.getKey();
@@ -102,12 +104,11 @@ public class Deck {
       Set<ManaSymbol.Typed> resolved = new HashSet<>(card.manaTypes);
       if (card.fetchedTypes != null) {
         for (String s : card.fetchedTypes) {
-          list.keySet().stream().flatMap(c -> c instanceof Card.Land ? Stream.of((Card.Land)c) : Stream.empty())
-            .forEach(l -> {
-              if (l.subTypes.contains(s) || l.superTypes.contains(s)) {
-                resolved.addAll(l.manaTypes);
-              }
-            });
+          lands().forEach(land -> {
+            if (land.subTypes.contains(s) || land.superTypes.contains(s)) {
+              resolved.addAll(land.manaTypes);
+            }
+          });
         }
       }
       resolvedManaTypes.put(card, resolved);
@@ -118,7 +119,10 @@ public class Deck {
 
 
   public List<Card.Spell> spells() {
-    return cards(Card.Spell.class);
+    if (spells == null) {
+      spells = cards(Card.Spell.class);
+    }
+    return spells;
   }
 
   public int size() {
@@ -126,7 +130,10 @@ public class Deck {
   }
 
   public List<Card.Land> lands() {
-    return cards(Card.Land.class);
+    if (lands == null) {
+      lands = cards(Card.Land.class);
+    }
+    return lands;
   }
 
   public JsonObject toJson() {
