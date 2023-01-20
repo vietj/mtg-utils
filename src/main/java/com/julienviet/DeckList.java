@@ -11,13 +11,15 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Deck {
+/**
+ * Definition of what contains a deck.
+ */
+public class DeckList {
 
   private static final Pattern LINE_RE = Pattern.compile("\\s*([0-9]+)\\s+(.+)");
 
-  public static Deck load(CardDb db, InputStream in) throws IOException {
+  public static DeckList load(CardDb db, InputStream in) throws IOException {
     JsonArray array = new JsonArray();
     try (LineNumberReader reader = new LineNumberReader(new InputStreamReader(in))) {
       String line;
@@ -28,8 +30,8 @@ public class Deck {
     return load(db, new JsonObject().put("deck", array));
   }
 
-  public static Deck load(CardDb db, JsonObject json) {
-    Builder builder = Deck.builder();
+  public static DeckList load(CardDb db, JsonObject json) {
+    Builder builder = DeckList.builder();
     JsonArray list = json.getJsonArray("deck");
     for (int i = 0;i < list.size();i++) {
       String entry = list.getString(i);
@@ -70,8 +72,8 @@ public class Deck {
       return this;
     }
 
-    public Deck build() {
-      return new Deck(new HashMap<>(list));
+    public DeckList build() {
+      return new DeckList(new HashMap<>(list));
     }
   }
 
@@ -79,7 +81,7 @@ public class Deck {
   private List<Card.Land> lands;
   private List<Card.Spell> spells;
 
-  private Deck(Map<Card, Integer> list) {
+  private DeckList(Map<Card, Integer> list) {
     this.list = list;
   }
 

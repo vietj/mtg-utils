@@ -1,6 +1,6 @@
 package com.julienviet.manabase;
 
-import com.julienviet.Deck;
+import com.julienviet.DeckList;
 import com.julienviet.ManaCost;
 import com.julienviet.ManaSymbol;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class ManaSymbolTest {
   @Test
   public void testFindCorrectLand() {
 
-    Deck empty = new Deck.Builder().build();
+    DeckList empty = new DeckList.Builder().build();
 
     assertSame(ISLAND, Main.findCorrectLand(empty, Arrays.asList(ISLAND), ManaSymbol.BLUE));
     assertSame(ISLAND, Main.findCorrectLand(empty, Arrays.asList(ISLAND), ManaSymbol.hybrid(ManaSymbol.BLUE, ManaSymbol.GREEN)));

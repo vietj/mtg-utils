@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.julienviet.Deck;
+import com.julienviet.DeckList;
 
 public class Parser {
 
@@ -29,9 +29,9 @@ public class Parser {
     String targetURL = BASE_API + deckID;
   }
 
-  public static Deck toStruct(JsonObject jsonDeck) {
+  public static DeckList toStruct(JsonObject jsonDeck) {
     CardDb db = new CardDb();
-    Deck.Builder deckBuilder = Deck.builder();
+    DeckList.Builder deckBuilder = DeckList.builder();
     for (JsonObject o : Arrays.asList(jsonDeck.getJsonObject("companions"), jsonDeck.getJsonObject("commanders"), jsonDeck.getJsonObject("mainboard"))) {
       o.forEach(entry -> {
         JsonObject cardJson = ((JsonObject) entry.getValue()).getJsonObject("card");

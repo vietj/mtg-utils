@@ -57,7 +57,7 @@ public class EvaluateCostTest {
 
   @Test
   public void testEvaluate() {
-    Deck empty = new Deck.Builder().build();
+    DeckList empty = new DeckList.Builder().build();
     assertTrue(Main.evaluateCost(empty, Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.BLUE)));
     assertFalse(Main.evaluateCost(empty, Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.RED)));
     assertFalse(Main.evaluateCost(empty, Arrays.asList(ISLAND), new ManaCost().add(ManaSymbol.BLUE, 2)));
@@ -75,7 +75,7 @@ public class EvaluateCostTest {
 
   @Test
   public void testCanPlaySpell() {
-    Deck empty = new Deck.Builder().build();
+    DeckList empty = new DeckList.Builder().build();
     assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(ISLAND), COUNTERSPELL));
     assertTrue(Main.canPlaySpellOnCurve(empty, Arrays.asList(ISLAND, ISLAND), COUNTERSPELL));
     assertFalse(Main.canPlaySpellOnCurve(empty, Arrays.asList(SWAMP, SWAMP), BALEFUL_STRIX));
@@ -95,11 +95,11 @@ public class EvaluateCostTest {
   @Test
   public void testAnalyzeDeck() {
 
-    Deck.Builder builder = Deck.builder();
+    DeckList.Builder builder = DeckList.builder();
     builder.add(VAMPIRIC_TUTOR, 4);
     builder.add(SWAMP);
     builder.add(ISLAND, 20);
-    Deck deck = builder.build();
+    DeckList deck = builder.build();
 
     Map<Card.Spell, Result> res = Main.analyze(deck);
 

@@ -1,7 +1,7 @@
 package com.julienviet.manabase;
 
 import com.julienviet.Card;
-import com.julienviet.Deck;
+import com.julienviet.DeckList;
 import org.junit.Test;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class DeckTest {
   @Test
   public void testResolveFetch() {
 
-    Deck deck = Deck.builder().add(VOLCANIC_ISLAND).add(ARID_MESA).build();
+    DeckList deck = DeckList.builder().add(VOLCANIC_ISLAND).add(ARID_MESA).build();
 
     for (Card.Land land : deck.lands()) {
       System.out.println(land.name + " " + deck.resolveManaTypes(land));
@@ -28,7 +28,7 @@ public class DeckTest {
   @Test
   public void testOmnath() {
 
-    Deck deck = Deck.builder()
+    DeckList deck = DeckList.builder()
       .add(OMNATH_LOCUST_OF_CREATION, 4)
       .add(RAUGRIN_TRIOME, 2)
       .add(KETRIA_TRIOME, 2)

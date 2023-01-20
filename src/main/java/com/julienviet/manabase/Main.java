@@ -76,9 +76,9 @@ public class Main {
     CardDb db = new CardDb();
 
     // Deck deck = Deck.load(db, new JsonObject(DECK));
-    Deck deck = Deck.load(db, Main.class.getClassLoader().getResourceAsStream("deck2.txt"));
+    DeckList deckList = DeckList.load(db, Main.class.getClassLoader().getResourceAsStream("deck2.txt"));
 
-    Map<Card.Spell, Result> data = analyze(deck);
+    Map<Card.Spell, Result> data = analyze(deckList);
 
     System.out.println("DONE");
     data.forEach((spell, res) -> {
@@ -100,15 +100,15 @@ public class Main {
     return output;
   }
 
-  public static Map<Card.Spell, Result> analyze(Deck deck) {
+  public static Map<Card.Spell, Result> analyze(DeckList deckList) {
 
-    List<Card.Spell> spells = deck.spells();
-    List<Card.Land> lands = deck.lands();
+    List<Card.Spell> spells = deckList.spells();
+    List<Card.Land> lands = deckList.lands();
 
     Set<ManaCost> manaCosts = spells.stream().map(spell -> spell.cost).collect(Collectors.toSet());
 
 
-    int averageLandCount = getAverageLandCountInHand(deck.size(), lands.size());;
+    int averageLandCount = getAverageLandCountInHand(deckList.size(), lands.size());;
 
     int maxCmc = Math.max(spells.stream().mapToInt(s -> s.cmc).max().orElse(4), 4);
     int minCmc = Math.min(spells.stream().mapToInt(s -> s.cmc).max().orElse(2), 2);
@@ -130,7 +130,7 @@ public class Main {
             res = new Result();
             manaCostsResults.put(manaCost, res);
           }
-          if (canPlaySpellOnCurve(deck, comb, manaCost)) {
+          if (canPlaySpellOnCurve(deckList, comb, manaCost)) {
             res.ok++;
           } else {
             if (manaCost.cmc() == 0) {
@@ -151,8 +151,8 @@ public class Main {
     return spellResults;
   }
 
-  public static boolean canPlaySpellOnCurve(Deck deck, List<Card.Land> lands, Card.Spell spell) {
-    return canPlaySpellOnCurve(deck, lands, spell.cost);
+  public static boolean canPlaySpellOnCurve(DeckList deckList, List<Card.Land> lands, Card.Spell spell) {
+    return canPlaySpellOnCurve(deckList, lands, spell.cost);
   }
 
   public static boolean hasCorrectColors() {
@@ -161,7 +161,7 @@ public class Main {
     return false;
   }
 
-  public static boolean canPlaySpellOnCurve(Deck deck, List<Card.Land> lands, ManaCost spell) {
+  public static boolean canPlaySpellOnCurve(DeckList deckList, List<Card.Land> lands, ManaCost spell) {
 
 //    if (!hasCorrectColors(lands, spell)) {
 //      return false;
@@ -175,7 +175,7 @@ public class Main {
     if (!hasUntappedLand(lands, cmc)) {
       return false;
     }
-    List<Card.Land> res = getAllCombinationsOfMinAndMaxLengthWithCallback2(comb -> !evaluateCost(deck, comb, spell), lands, cmc, cmc);
+    List<Card.Land> res = getAllCombinationsOfMinAndMaxLengthWithCallback2(comb -> !evaluateCost(deckList, comb, spell), lands, cmc, cmc);
 
     return res != null;
 
@@ -307,7 +307,7 @@ public class Main {
     }
   }
 
-  public static boolean evaluateCost(Deck deck, List<Card.Land> lands, ManaCost cost) {
+  public static boolean evaluateCost(DeckList deck, List<Card.Land> lands, ManaCost cost) {
 
     int cmc = cost.cmc();
     if (cmc == 0) {
@@ -356,7 +356,7 @@ public class Main {
     return false;
   }
 
-  public static Card.Land findCorrectLand(Deck deck, List<Card.Land> lands, ManaSymbol symbol) {
+  public static Card.Land findCorrectLand(DeckList deckList, List<Card.Land> lands, ManaSymbol symbol) {
     if (lands.isEmpty()) {
       return null;
     }
@@ -365,21 +365,21 @@ public class Main {
     }
     if (symbol instanceof ManaSymbol.Hybrid) {
       ManaSymbol.Hybrid hybrid = (ManaSymbol.Hybrid) symbol;
-      Card.Land land = findCorrectLand(deck, lands, hybrid.first);
+      Card.Land land = findCorrectLand(deckList, lands, hybrid.first);
       if (land == null) {
-        land = findCorrectLand(deck, lands, hybrid.second);
+        land = findCorrectLand(deckList, lands, hybrid.second);
       }
       return land;
     }
     ManaSymbol.Typed typed = (ManaSymbol.Typed) symbol;
     for (Card.Land land : lands) {
-      Set<ManaSymbol.Typed> resolvedManaTypes = deck.resolveManaTypes(land);
+      Set<ManaSymbol.Typed> resolvedManaTypes = deckList.resolveManaTypes(land);
       if (resolvedManaTypes.size() == 1 && resolvedManaTypes.contains(typed)) {
         return land;
       }
     }
     for (Card.Land land : lands) {
-      if (deck.resolveManaTypes(land).contains(typed)) {
+      if (deckList.resolveManaTypes(land).contains(typed)) {
         return land;
       }
     }

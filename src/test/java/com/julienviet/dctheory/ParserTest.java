@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.Test;
 import wiremock.com.github.jknack.handlebars.internal.Files;
-import com.julienviet.Deck;
+import com.julienviet.DeckList;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -22,7 +22,7 @@ public class ParserTest {
   public void testFoo() throws Exception {
     File file = new File(ParserTest.class.getClassLoader().getResource("Graou_graou_X_initiative.json").toURI());
     JsonObject json = new JsonObject(Files.read(file));
-    Deck deck = Parser.toStruct(json);
+    DeckList deck = Parser.toStruct(json);
     Map<String, Integer> manaSources = new LinkedHashMap<>();
     int landCount = 0;
     for (Card.Land land : deck.lands()) {
