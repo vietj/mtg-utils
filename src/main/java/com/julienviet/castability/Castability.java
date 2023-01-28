@@ -1,7 +1,5 @@
 package com.julienviet.castability;
 
-import java.util.SplittableRandom;
-
 public class Castability {
 
   private int coloredSources;
@@ -36,14 +34,27 @@ public class Castability {
         int colorlessSources = hand.colorlessSources;
         int other = hand.other;
         takeMulligan(hand, handSize);
-        deck.coloredSources += coloredSources - hand.coloredSources;
-        deck.colorlessSources += colorlessSources - hand.colorlessSources;
-        deck.other += other - hand.other;
+        for (int i = 0;i < coloredSources - hand.coloredSources;i++) {
+          deck.bottom(CardType.COLORED_SOURCE);
+        }
+        for (int i = 0;i < colorlessSources - hand.colorlessSources;i++) {
+          deck.bottom(CardType.COLORLESS_SOURCE);
+        }
+        for (int i = 0;i < other - hand.other;i++) {
+          deck.bottom(CardType.OTHER);
+        }
         break;
       } else {
-        deck.coloredSources = coloredSources;
-        deck.colorlessSources = colorlessSources;
-        deck.other = other;
+        for (int i = 0;i < hand.coloredSources;i++) {
+          deck.bottom(CardType.COLORED_SOURCE);
+        }
+        for (int i = 0;i < hand.colorlessSources;i++) {
+          deck.bottom(CardType.COLORLESS_SOURCE);
+        }
+        for (int i = 0;i < hand.other;i++) {
+          deck.bottom(CardType.OTHER);
+        }
+        deck.shuffle();
         hand.coloredSources = 0;
         hand.colorlessSources = 0;
         hand.other = 0;
@@ -55,7 +66,7 @@ public class Castability {
 
 
   public Deck deck() {
-    return new Deck(coloredSources, colorlessSources, other);
+    return new Deck(coloredSources, colorlessSources, other).shuffle();
   }
 
   public static class Result {
@@ -213,29 +224,34 @@ public class Castability {
   }
 
   static class Deck {
-    private static final SplittableRandom generator = new SplittableRandom();
-    private int coloredSources;
-    private int colorlessSources;
-    private int other;
+
+    private Deque<CardType> cards;
+
     Deck(int coloredSources, int colorlessSources, int other) {
-      this.coloredSources = coloredSources;
-      this.colorlessSources = colorlessSources;
-      this.other = other;
-    }
-    CardType drawCard() {
-      int rnd = generator.nextInt(coloredSources + colorlessSources + other);
-      if (rnd < coloredSources) {
-        coloredSources--;
-        return CardType.COLORED_SOURCE;
-      } else if (rnd < colorlessSources + coloredSources) {
-        colorlessSources--;
-        return CardType.COLORLESS_SOURCE;
-      } else {
-        other--;
-        return CardType.OTHER;
+      cards = new Deque<>(coloredSources + colorlessSources + other);
+      for (int i = 0; i < coloredSources; i++) {
+        cards.addLast(CardType.COLORED_SOURCE);
+      }
+      for (int i = 0; i < colorlessSources; i++) {
+        cards.addLast(CardType.COLORLESS_SOURCE);
+      }
+      for (int i = 0; i < other; i++) {
+        cards.addLast(CardType.OTHER);
       }
     }
+
+    Deck shuffle() {
+      cards.shuffle();
+      return this;
+    }
+
+    Deck bottom(CardType card) {
+      cards.addLast(card);
+      return this;
+    }
+
+    CardType drawCard() {
+      return cards.removeFirst();
+    }
   }
-
-
 }
