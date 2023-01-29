@@ -1,5 +1,6 @@
-package com.julienviet.castability;
+package com.julienviet;
 
+import com.julienviet.Deque;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

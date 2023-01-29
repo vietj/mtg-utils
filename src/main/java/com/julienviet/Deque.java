@@ -1,4 +1,4 @@
-package com.julienviet.castability;
+package com.julienviet;
 
 import java.util.concurrent.ThreadLocalRandom;
 

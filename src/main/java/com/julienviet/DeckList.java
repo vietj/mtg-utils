@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Definition of what contains a deck.
  */
-public class DeckList {
+public class DeckList implements Iterable<Card> {
 
   private static final Pattern LINE_RE = Pattern.compile("\\s*([0-9]+)\\s+(.+)");
 
@@ -136,6 +136,34 @@ public class DeckList {
       lands = cards(Card.Land.class);
     }
     return lands;
+  }
+
+  @Override
+  public Iterator<Card> iterator() {
+    Iterator<Map.Entry<Card, Integer>> it = list.entrySet().iterator();
+    return new Iterator<Card>() {
+      Card card;
+      int idx = 0;
+      int size = 0;
+      @Override
+      public boolean hasNext() {
+        while (idx >= size && it.hasNext()) {
+          Map.Entry<Card, Integer> next = it.next();
+          card = next.getKey();
+          idx = 0;
+          size = next.getValue();
+        }
+        return idx < size;
+      }
+      @Override
+      public Card next() {
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        idx++;
+        return card;
+      }
+    };
   }
 
   public JsonObject toJson() {
